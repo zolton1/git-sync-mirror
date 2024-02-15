@@ -7,7 +7,8 @@ if [ -n "${SSH_PRIVATE_KEY}" ]; then
   ssh-add - <<< "${SSH_PRIVATE_KEY}"
   mkdir -p ${HOME}/.ssh
   touch ${HOME}/.ssh/known_hosts
-  ssh-keyscan -t rsa github.com >> ${HOME}/.ssh/known_hosts
+  ssh-keyscan -t rsa $(echo "${DST_REPO}" | sed -E 's/^(https:\/\/|git@)([^\/:]+)[:\/].*/\2/') >> ${HOME}/.ssh/known_hosts
+  ssh-keyscan -t rsa $(echo "${SRC_REPO}" | sed -E 's/^(https:\/\/|git@)([^\/:]+)[:\/].*/\2/') >> ${HOME}/.ssh/known_hosts
 fi
 
 #
