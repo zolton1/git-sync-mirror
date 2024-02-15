@@ -1,6 +1,6 @@
 services:
-  git_sync:
-    container_name: git_sync
+  git-mirror:
+    container_name: git-mirror
     build: .
     environment:
       SRC_REPO: ${SRC_REPO}
@@ -10,4 +10,4 @@ services:
       DEBUG: true
       ONCE: true
       SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
-#    entrypoint: ["bash", "git-sync-mirror.sh"]
+    entrypoint: ["bash", "git-sync-mirror.sh"]
