@@ -1,16 +1,20 @@
 FROM alpine:3.19.1
 
 ARG USER=default
-ENV HOME /home/$USER
-ENV APP=git_sync_mod
+
+ENV HOME /home/${USER}
+ENV APP=git_sync
 ENV APP_ROOT=/${HOME}/${APP}
+ENV PATH=${APP_ROOT}/bin:${PATH}
 
 RUN apk --no-cache add openssh-client git bash
 
-RUN adduser -D $USER
+RUN adduser -D ${USER}
 
-USER $USER
-WORKDIR $HOME
+USER ${USER}
 
 CMD mkdir -p /${APP_ROOT}
 COPY bin/ /${APP_ROOT}/
+
+WORKDIR ${APP_ROOT}
+ENTRYPOINT ["bash", "git-sync-mirror.sh"]
