@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+eval $(ssh-agent -s)
 
 if [ -n "${SSH_PRIVATE_KEY}" ]; then
   ssh-add - <<< "${SSH_PRIVATE_KEY}"
@@ -8,7 +9,6 @@ if [ -n "${SSH_PRIVATE_KEY}" ]; then
   touch ${HOME}/.ssh/known_hosts
   ssh-keyscan -t rsa github.com >> ${HOME}/.ssh/known_hosts
 fi
-
 
 #
 # Functions
@@ -168,7 +168,7 @@ HTTP_TLS_VERIFY="${HTTP_TLS_VERIFY:-true}"
 HTTP_SRC_PROXY="${HTTP_SRC_PROXY:-""}"
 HTTP_DST_PROXY="${HTTP_DST_PROXY:-""}"
 
-ONCE="${ONCE:-false}"
+ONCE="${ONCE:-true}"
 SLEEP_TIME="${SLEEP_TIME:-60s}"
 
 IGNORE_REFS_PATTERN="${IGNORE_REFS_PATTERN:-refs/pull}"
