@@ -51,3 +51,43 @@ For example replace `SRC_REPO_TOKEN` with your [GitHub Access token](https://hel
 | `TLS_TOFU` | Enable / Disable [TLS-Trust On First Use] | No, default: `false` | `true` or `false` |
 
 [TLS-Trust On First Use]:https://github.com/Enteee/tls-tofu
+
+## Changes:
+
+### new image:
+- ssh binaries
+- no tls tofu because it runs as root during the container init
+
+### script:
+- ssh-agent init
+- private_key, known_host propagation
+- ONCE set do default
+
+---
+
+### kubernetes test:
+- kind with registry:
+```sh
+sh kind-with-registry.sh
+```
+
+- build and bush image to registry:
+```sh
+docker build . -t localhost:5001/git-mirror:1.0 
+docker push localhost:5001/git-mirror:1.0
+```
+
+- deploy cron job:
+```sh
+kubectl apply -f cronjob.yaml 
+```
+
+- watch
+```sh
+kubectl get cronjob git-mirror --watch
+```
+
+### docker test:
+```sh
+docker-compose up --build
+```
