@@ -1,0 +1,18 @@
+services:
+  git_sync:
+    container_name: git_sync
+    build: .
+    environment:
+      SRC_REPO: https://github.com/OmkarPathak/pyresparser.git
+      DST_REPO: git@github.com:zolton1/test_repo.git
+      DEBUG: true
+      SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
+    entrypoint: |
+      /bin/sh -c "
+      eval $(ssh-agent -s) && bash ./git_sync_mod/git-sync-mirror.sh
+      "
+    # entrypoint: |
+    #   /bin/bash -c "
+    #   pwd
+    #   ls -alh
+    #   "

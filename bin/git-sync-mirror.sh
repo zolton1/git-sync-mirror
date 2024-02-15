@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
+if [ -n "${SSH_PRIVATE_KEY}" ]; then
+  ssh-add - <<< "${SSH_PRIVATE_KEY}"
+  mkdir -p ${HOME}/.ssh
+  touch ${HOME}/.ssh/known_hosts
+  ssh-keyscan -t rsa github.com >> ${HOME}/.ssh/known_hosts
+fi
+
+
 #
 # Functions
 #
