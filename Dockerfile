@@ -1,25 +1,20 @@
-FROM enteee/tls-tofu:v1.0.0
+FROM alpine:3.19.1
 
-# Disable TLS-TOFU by default
-ENV TLS_TOFU=false
+ARG USER=default
 
-RUN set -exuo pipefail \
-  && apk add \
-    git \
-    bash
-
-ENV APP_ROOT=/opt/git-sync-mirror
+ENV HOME /home/${USER}
+ENV APP=git_sync
+ENV APP_ROOT=/${HOME}/${APP}
 ENV PATH=${APP_ROOT}/bin:${PATH}
-ENV HOME=${APP_ROOT}
 
-COPY bin/ ${APP_ROOT}/bin/
+RUN apk --no-cache add openssh-client git bash
 
-RUN set -exuo pipefail \
-  && chmod -R u+x ${APP_ROOT}/bin \
-  && chgrp -R 0 ${APP_ROOT} \
-  && chmod -R g=u ${APP_ROOT} /etc/passwd
+RUN adduser -D ${USER}
 
-USER 1000080001:0
+USER ${USER}
+
+RUN mkdir -p /${APP_ROOT}
+COPY bin/ /${APP_ROOT}/
 
 WORKDIR ${APP_ROOT}
 CMD ["git-sync-mirror.sh"]

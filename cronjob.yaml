@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: git-mirror
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: git-mirror
+            image: localhost:5001/git-mirror:1.0
+            imagePullPolicy: Always
+            command:
+            - bash
+            - git-sync-mirror.sh
+            env:
+            - name: SRC_REPO
+              value: 
+            - name: DST_REPO
+              value: 
+            - name: SRC_REPO_TOKEN
+              value: 
+            - name: SSH_PRIVATE_KEY
+              value: |-
+              aaaaaaa
+          restartPolicy: Never
