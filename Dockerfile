@@ -13,8 +13,8 @@ RUN adduser -D ${USER}
 
 USER ${USER}
 
-CMD mkdir -p /${APP_ROOT}
+RUN mkdir -p /${APP_ROOT}
 COPY bin/ /${APP_ROOT}/
 
 WORKDIR ${APP_ROOT}
-ENTRYPOINT ["bash", "git-sync-mirror.sh"]
+CMD ["git-sync-mirror.sh"]
