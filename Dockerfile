@@ -1,4 +1,4 @@
-FROM alpine:3.19.1
+FROM registry.suse.com/bci/bci-base:15.5
 
 ARG USER=default
 
@@ -7,9 +7,8 @@ ENV APP=git_sync
 ENV APP_ROOT=/${HOME}/${APP}
 ENV PATH=${APP_ROOT}/bin:${PATH}
 
-RUN apk --no-cache add openssh-client git bash
-
-RUN adduser -D ${USER}
+RUN zypper --non-interactive in git openssh-clients
+RUN useradd -m ${USER}
 
 USER ${USER}
 
